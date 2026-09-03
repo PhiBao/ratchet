@@ -1,0 +1,10 @@
+{
+  "client_id": "https://raw.githubusercontent.com/PhiBao/ratchet/main/cimd.json",
+  "client_name": "Ratchet — self-improving trading loop",
+  "client_uri": "https://github.com/PhiBao/ratchet",
+  "logo_uri": "https://github.com/PhiBao/ratchet/raw/main/dashboard/icon.png",
+  "redirect_uris": ["http://127.0.0.1:8099/callback"],
+  "grant_types": ["authorization_code"],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none"
+}

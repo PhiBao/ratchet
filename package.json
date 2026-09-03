@@ -1,0 +1,27 @@
+{
+  "name": "ratchet",
+  "version": "0.1.0",
+  "description": "The trading agent that gets better every trade — and can prove it. Built for the Binance Agent OS Mini Hackathon (Track A).",
+  "type": "module",
+  "bin": {
+    "ratchet": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "replay": "tsx src/index.ts replay",
+    "reflect": "tsx src/index.ts reflect",
+    "curate": "tsx src/index.ts curate",
+    "ab": "tsx src/index.ts ab",
+    "dashboard": "tsx src/index.ts dashboard"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@11.1.1"
+}

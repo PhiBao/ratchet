@@ -1,0 +1,153 @@
+{
+  "trades": [
+    "t000",
+    "t001",
+    "t002",
+    "t003",
+    "t004",
+    "t005",
+    "t006",
+    "t007",
+    "t008",
+    "t009",
+    "t010",
+    "t011",
+    "t012",
+    "t013",
+    "t014",
+    "t015",
+    "t016",
+    "t017",
+    "t018",
+    "t019"
+  ],
+  "lessons": [
+    {
+      "text": "Skip dip-buys in volatile regime — the setup fails to find a floor, leading to frequent stops even when RSI conditions are met.",
+      "section": "FILTERS",
+      "evidence": [
+        "t005",
+        "t007",
+        "t013",
+        "t014"
+      ],
+      "regimes": [
+        "volatile"
+      ],
+      "votesOn": "flt-00002"
+    },
+    {
+      "text": "In range regime, tighten the dip window — current 3-12% dip range is too wide, allowing entries on shallow pullbacks that lack momentum.",
+      "section": "SETUPS",
+      "evidence": [
+        "t000",
+        "t002",
+        "t003",
+        "t004",
+        "t006",
+        "t012"
+      ],
+      "regimes": [
+        "range"
+      ],
+      "votesOn": "set-00001"
+    },
+    {
+      "text": "WATCH: Thesis-confirmed trades in range regime consistently hit target with high MFE — consider raising takePct slightly to capture more edge.",
+      "section": "WATCH",
+      "evidence": [
+        "t001",
+        "t008",
+        "t010",
+        "t015",
+        "t016",
+        "t017",
+        "t018",
+        "t019"
+      ],
+      "regimes": [
+        "range"
+      ]
+    },
+    {
+      "text": "WATCH: Volatile regime trades show extreme MAE (t013: 3.08R) — stopPct may be too tight for volatile conditions, but filter is preferred over widening stop.",
+      "section": "WATCH",
+      "evidence": [
+        "t005",
+        "t007",
+        "t013",
+        "t014"
+      ],
+      "regimes": [
+        "volatile"
+      ]
+    },
+    {
+      "text": "Enforce mechanical exit discipline — lucky wins (t007, t014) scored -1 and eroded edge; lingering converts edge into noise as per exe-00001.",
+      "section": "MISTAKES",
+      "evidence": [
+        "t007",
+        "t014"
+      ],
+      "regimes": [
+        "volatile"
+      ],
+      "votesOn": "exe-00001"
+    }
+  ],
+  "knobDeltas": {
+    "dipPct": 4,
+    "maxDipPct": 8,
+    "takePct": 2.5
+  },
+  "votes": [
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "harmful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "harmful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    }
+  ]
+}
