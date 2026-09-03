@@ -60,6 +60,10 @@ ratchet live-buy --symbol BTCUSDT --usd 10 --profile ratchet-testnet
 claude mcp add binance-mcp-server --transport http https://agent.binance.com/mcp/agentic
 # then load SKILL.md in that session
 ```
+> Verified Sep 2026: Binance allowlists agent OAuth clients. Custom clients are rejected
+> (`3346001 agent not supported`) via self-registered OAuth, via MCP-host DCR (e.g. opencode),
+> and via published CIMD metadata alike. Only approved hosts (Claude/Cursor/ChatGPT) can OAuth
+> to the Agentic MCP. Path A above is the way custom runners trade live.
 
 Constraints inherited from Agent OS: OAuth is `authorization_code` with **no refresh token**, so Ratchet trades in human-gated sessions, never as an unattended daemon. Spot only, Agentic sub-account only, $50/trade, $100 daily halt, human confirm above $20, file kill-switch (`halt`/`resume --reason`), hash-chained audit log.
 
