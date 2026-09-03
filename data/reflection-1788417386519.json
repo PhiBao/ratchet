@@ -1,0 +1,134 @@
+{
+  "trades": [
+    "t000",
+    "t001",
+    "t002",
+    "t003",
+    "t004",
+    "t005",
+    "t006",
+    "t007",
+    "t008",
+    "t009",
+    "t010",
+    "t011",
+    "t012",
+    "t013",
+    "t014",
+    "t015"
+  ],
+  "lessons": [
+    {
+      "text": "1 win(s) printed without thesis confirmation — exits left edge on the table; take profit mechanically at target instead of lingering",
+      "section": "MISTAKES",
+      "evidence": [
+        "t005"
+      ],
+      "regimes": []
+    },
+    {
+      "text": "deep-dip entries (adverse excursion >1.5R) lost $17.21 across 4 trades — tighten maxDipPct to 6",
+      "section": "FILTERS",
+      "evidence": [
+        "t003",
+        "t005",
+        "t007",
+        "t014"
+      ],
+      "regimes": []
+    }
+  ],
+  "knobDeltas": {
+    "maxDipPct": 6
+  },
+  "votes": [
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "harmful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "harmful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00001",
+      "vote": "helpful"
+    },
+    {
+      "id": "set-00002",
+      "vote": "helpful"
+    }
+  ]
+}

@@ -191,7 +191,9 @@ async function cmdAb(a: Record<string, string>): Promise<void> {
   const train = klines.slice(0, cut);
   const test = klines.slice(cut);
   const store = new PlaybookStore(join(ROOT, "playbook"));
-  const v0 = store.load();
+  // --base pins the frozen baseline version (default: latest). The demo pins v0
+  // so the advertised walk-forward numbers reproduce bit-for-bit from any repo state.
+  const v0 = store.load(a["base"] !== undefined ? Number(a["base"]) : undefined);
   const knobs0 = { ...DEFAULT_KNOBS, ...store.knobs(v0) };
   const takeR0 = knobs0.takePct / knobs0.stopPct;
 
@@ -234,22 +236,22 @@ async function cmdAb(a: Record<string, string>): Promise<void> {
 async function cmdDashboard(): Promise<void> {
   const journal = new Journal(JOURNAL_PATH);
   const closes = journal.ofKind("close").map((e) => e.payload as ClosedTrade);
-  let eq = 1000;
-  const pts: string[] = [];
-  closes.forEach((t, i) => {
-    eq += t.pnl;
-    pts.push(`${i},${eq.toFixed(1)}`);
+  // Cumulative realized PnL from the journaled trades (venue-agnostic, no baseline fiction).
+  let cum = 0;
+  const pts: { i: number; cum: number }[] = closes.map((t, i) => {
+    cum += t.pnl;
+    return { i, cum };
   });
-  const max = Math.max(1000, eq);
-  const min = Math.min(1000, ...closes.map((t) => t.pnl));
-  void min;
+  const finalCum = pts.length ? (pts[pts.length - 1]?.cum ?? 0) : 0;
+  const lo = Math.min(0, ...pts.map((p) => p.cum));
+  const hi = Math.max(0, ...pts.map((p) => p.cum));
+  const span = Math.max(hi - lo, 1e-9);
   const W = 720;
   const H = 220;
   const path = pts
     .map((p, i) => {
-      const [x, y] = p.split(",").map(Number) as [number, number];
       const px = closes.length < 2 ? W / 2 : (i / (closes.length - 1)) * (W - 20) + 10;
-      const py = H - 10 - ((y - 900) / (max - 900 + 50)) * (H - 20);
+      const py = H - 10 - ((p.cum - lo) / span) * (H - 20);
       return `${i === 0 ? "M" : "L"}${px.toFixed(1)},${Math.max(5, Math.min(H - 5, py)).toFixed(1)}`;
     })
     .join(" ");
@@ -258,10 +260,10 @@ async function cmdDashboard(): Promise<void> {
     .join("");
   const html = `<!doctype html><html><head><meta charset="utf8"><title>Ratchet — loop report</title></head><body style="font-family:system-ui;max-width:900px;margin:2rem auto;color:#111">` +
     `<h1>Ratchet — every trade ratchets forward</h1>` +
-    `<p>${closes.length} closed trades · equity ${fmt(eq)} (from 1000.00)</p>` +
+    `<p>${closes.length} closed trades · cumulative realized PnL ${fmt(finalCum)} USDT</p>` +
     `<svg width="${W}" height="${H}" style="border:1px solid #ccc"><path d="${path}" fill="none" stroke="#0a7" stroke-width="2"/></svg>` +
     `<table border="1" cellpadding="6" style="border-collapse:collapse;margin-top:1rem"><tr><th>id</th><th>symbol</th><th>regime</th><th>exit</th><th>pnl</th><th>mfe</th></tr>${rows}</table>` +
-    `<p style="color:#555">Not financial advice. Replay fills use next-bar-open discipline + fees; live fills come from the Agentic sub-account only.</p>` +
+    `<p style="color:#555">Not financial advice. Replay fills use next-bar-open discipline + fees; live fills are journaled with their venue.</p>` +
     `</body></html>`;
   const out = join(ROOT, "dashboard", "report.html");
   writeFileSync(out, html);

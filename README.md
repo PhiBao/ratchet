@@ -39,6 +39,17 @@ tsx src/index.ts dashboard && tsx src/index.ts audit verify
 
 Klines CSV: Binance `openTime,open,high,low,close,volume,...` (grab from data.binance.vision — public, no auth).
 
+## Measured walk-forward (ETH 1h, May–Jul 2026)
+
+Train on the first half → reflect → curate → test frozen-v0 vs evolved on the held-out half (`ab --csv data/ethusdt-1h.csv --train-frac 0.5 --base 0`). No peeking by construction — the test bars never enter reflection:
+
+| | trades | win rate | PnL | skilled |
+|---|---|---|---|---|
+| frozen v0 | 12 | 50.0% | −$8.9 | 6 |
+| evolved | 11 | 72.7% | +$17.0 | 8 |
+
+Entry-by-entry, evolution refused 3 dip-buys — two stopped-out losers (−$7.53, −$7.37) — and widened stops converted chop-exits into targets. Reproduce it: the command above prints the same table from any checkout (klines: `data.binance.vision`, public).
+
 ## Live trading (two supported paths)
 
 Binance rejects custom OAuth clients (`3346001 agent not supported`), so Ratchet uses only sanctioned paths:
