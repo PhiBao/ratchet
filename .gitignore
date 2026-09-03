@@ -8,3 +8,7 @@ data/token.json
 data/HALT
 *.log
 .DS_Store
+demo/audio/
+demo/segs/
+demo/frames/check-*.png
+demo/concat.txt
