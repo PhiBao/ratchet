@@ -317,13 +317,17 @@ export function templateLessons(
     const pnl = pnlOf(dipped);
     if (pnl < 0) {
       const proposed = Math.max(4, knobs.maxDipPct - 2);
-      if (proposed < knobs.maxDipPct && proposed - knobs.dipPct >= MIN_DIP_WINDOW) knobDeltas.maxDipPct = proposed;
-      lessons.push({
-        text: `deep-dip entries (adverse excursion >1.5R) lost $${(-pnl).toFixed(2)} across ${dipped.length} trades — tighten maxDipPct to ${proposed}`,
-        section: "FILTERS",
-        evidence: dipped.map((t) => t.id),
-        regimes: [],
-      });
+      // The lesson must not advocate a delta the coherence floor would block:
+      // prose and knobs stay in agreement, or the curator hears double.
+      if (proposed < knobs.maxDipPct && proposed - knobs.dipPct >= MIN_DIP_WINDOW) {
+        knobDeltas.maxDipPct = proposed;
+        lessons.push({
+          text: `deep-dip entries (adverse excursion >1.5R) lost $${(-pnl).toFixed(2)} across ${dipped.length} trades — tighten maxDipPct to ${proposed}`,
+          section: "FILTERS",
+          evidence: dipped.map((t) => t.id),
+          regimes: [],
+        });
+      }
     }
   }
   return { lessons: lessons.slice(0, 5), knobDeltas };
