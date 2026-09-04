@@ -1,6 +1,6 @@
 ---
 name: ratchet
-description: Self-improving spot-trading loop on Binance Agent OS. Use for ANY trading request routed through Ratchet: proposing a trade, executing against the Agentic sub-account, or reviewing performance. Every trade carries a machine-checkable thesis citing playbook rule IDs; every closed trade is graded on decision quality (not just PnL); every session ends by reflecting lessons into the versioned playbook. Always load the current playbook first, always consult this skill before calling any Binance Agent OS MCP tool through Ratchet, and never skip the reflect step after a close.
+description: "Self-improving spot-trading loop on Binance Agent OS. Use for ANY trading request routed through Ratchet: proposing a trade, executing against the Agentic sub-account, or reviewing performance. Every trade carries a machine-checkable thesis citing playbook rule IDs; every closed trade is graded on decision quality (not just PnL); every session ends by reflecting lessons into the versioned playbook. Always load the current playbook first, always consult this skill before calling any Binance Agent OS MCP tool through Ratchet, and never skip the reflect step after a close."
 ---
 
 # Ratchet — the loop that only turns one way
