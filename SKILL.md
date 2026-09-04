@@ -33,4 +33,4 @@ LOAD playbook → PROPOSE (thesis + rule IDs) → SAFETY gate → EXECUTE
 
 - Fetch MCP account/market data once per turn and reuse across modules.
 - Journal (`data/journal.jsonl`, hash-chained) is the system of record. Exchange history via MCP is the cross-check — if they disagree, halt and say so.
-- `ratchet` CLI mirrors every module for replay and batch runs: `replay`, `reflect`, `curate`, `ab`, `dashboard`, `audit verify`. Prefer the CLI for anything touching more than ~10 trades.
+- `ratchet` CLI mirrors every module for replay and batch runs: `fetch` (public klines), `replay`, `reflect`, `curate`, `ab` (one walk-forward cell, prints Fisher p + activity verdict), `sweep` (4-asset × fold evidence table, deterministic), `dashboard`, `audit verify`. Prefer the CLI for anything touching more than ~10 trades.

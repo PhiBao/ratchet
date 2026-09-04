@@ -52,6 +52,20 @@ describe("Curator", () => {
     expect(ops.join(" ")).toContain("dedupe");
   });
 
+  it("drops dip-window-collapsing amendments at the curator (second line of defense)", () => {
+    const pb = base();
+    // Give the SETUPS bullet dip ownership like the real playbook.
+    pb.bullets.push({
+      id: "set-00001", section: "SETUPS", text: "dip setup", helpful: 0, harmful: 0,
+      regimes: [], evidence: [], retired: false, knobs: { dipPct: 4, maxDipPct: 6 },
+    });
+    const { next, ops } = applyCuration(pb, {
+      lessons: [], votes: [], knobDeltas: { dipPct: 5 }, knobOwnerNote: "t", curationNote: "t",
+    });
+    expect(next.bullets.find((b) => b.id === "set-00001")?.knobs["dipPct"]).toBe(4);
+    expect(ops.join(" ")).toContain("coherence");
+  });
+
   it("adds genuinely new lessons with next sequence numbers", () => {
     const { next } = applyCuration(base(), {
       lessons: [{ text: "take profit mechanically at target in range regimes", section: "EXITS", evidence: ["t010", "t011", "t012"], regimes: ["range"] }],

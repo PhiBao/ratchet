@@ -4,6 +4,8 @@
  * retired bullets are struck through, never deleted.
  */
 import type { Lesson, Playbook, PlaybookBullet } from "./types.js";
+import { DEFAULT_KNOBS } from "./strategy.js";
+import { MIN_DIP_WINDOW } from "./reflect.js";
 
 export interface CuratorInput {
   lessons: Lesson[];
@@ -76,11 +78,33 @@ export function applyCuration(pb: Playbook, input: CuratorInput): CurationResult
   if (input.votes.length) ops.push(`applied ${input.votes.length} grade votes`);
 
   // 2. Knob deltas land on the bullet that owns each knob.
+  // Coherence second line of defense: sanitize() already drops window-collapsing
+  // delta pairs, but LLM/file-sourced deltas can arrive here directly — so the
+  // curator re-checks the effective dip window before each amendment.
+  const effectiveDipMax = (): { dip: number; max: number } => {
+    let dip = DEFAULT_KNOBS.dipPct;
+    let max = DEFAULT_KNOBS.maxDipPct;
+    for (const b of bullets) {
+      if (b.retired) continue;
+      if (typeof b.knobs["dipPct"] === "number") dip = b.knobs["dipPct"] as number;
+      if (typeof b.knobs["maxDipPct"] === "number") max = b.knobs["maxDipPct"] as number;
+    }
+    return { dip, max };
+  };
   for (const [key, value] of Object.entries(input.knobDeltas)) {
     const owner = bullets.find((b) => !b.retired && key in b.knobs);
     if (!owner) {
       ops.push(`knob ${key}=${value} has no owning bullet — dropped (no orphan knobs)`);
       continue;
+    }
+    if ((key === "dipPct" || key === "maxDipPct") && typeof value === "number") {
+      const cur = effectiveDipMax();
+      const prospectiveDip = key === "dipPct" ? value : cur.dip;
+      const prospectiveMax = key === "maxDipPct" ? value : cur.max;
+      if (prospectiveMax - prospectiveDip < MIN_DIP_WINDOW) {
+        ops.push(`coherence: ${key} → ${value} would collapse dip window to ${prospectiveDip}/${prospectiveMax} — dropped (min width ${MIN_DIP_WINDOW})`);
+        continue;
+      }
     }
     owner.knobs[key] = value;
     ops.push(`amend ${owner.id}: ${key} → ${value} (${input.knobOwnerNote || "reflection"})`);

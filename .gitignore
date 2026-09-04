@@ -4,6 +4,12 @@ dist/
 opencode.json
 data/*.jsonl
 data/*.csv
+# Sample klines below are the reproducible evidence base — tracked despite the
+# blanket *.csv ignore (git negations must follow the ignore they override).
+!data/btcusdt-1h.csv
+!data/ethusdt-1h.csv
+!data/solusdt-1h.csv
+!data/bnbusdt-1h.csv
 data/token.json
 data/HALT
 *.log
